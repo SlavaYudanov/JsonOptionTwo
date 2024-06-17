@@ -1,22 +1,22 @@
-namespace OptionTwoJson
+п»їnamespace OptionTwoJson
 {
     /// <summary>
-    /// Представление событий.
+    /// РџСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ СЃРѕР±С‹С‚РёР№.
     /// </summary>
     public class Event
     {
         /// <summary>
-        /// Название события.
+        /// РќР°Р·РІР°РЅРёРµ СЃРѕР±С‹С‚РёСЏ.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Вес события.
+        /// Р’РµСЃ СЃРѕР±С‹С‚РёСЏ.
         /// </summary>
         public int Value { get; set; }
 
         /// <summary>
-        /// Время отправки события.
+        /// Р’СЂРµРјСЏ РѕС‚РїСЂР°РІРєРё СЃРѕР±С‹С‚РёСЏ.
         /// </summary>
         public DateTime Time { get; set; } = DateTime.Now;
 

@@ -1,46 +1,46 @@
-using Microsoft.AspNetCore.Mvc;
+п»їusing Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Net.WebSockets;
 
 namespace OptionTwoJson.Controllers
 {
     /// <summary>
-    /// Контроллер для обработки событий.
+    /// РљРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё СЃРѕР±С‹С‚РёР№.
     /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class EventController : ControllerBase
     {
         /// <summary>
-        /// Логгер.
+        /// Р›РѕРіРіРµСЂ.
         /// </summary>
         private readonly ILogger<EventController> _logger;
 
         /// <summary>
-        /// Список для хранения 
+        /// РЎРїРёСЃРѕРє РґР»СЏ С…СЂР°РЅРµРЅРёСЏ 
         /// </summary>
         private static List<Event> _events = new List<Event>();
 
         /// <summary>
-        /// Внедряет зависимости ILogger.
+        /// Р’РЅРµРґСЂСЏРµС‚ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё ILogger.
         /// </summary>
-        /// <param name="logger">Экземпляр ILogger для текущего контроллера.</param>
+        /// <param name="logger">Р­РєР·РµРјРїР»СЏСЂ ILogger РґР»СЏ С‚РµРєСѓС‰РµРіРѕ РєРѕРЅС‚СЂРѕР»Р»РµСЂР°.</param>
         public EventController(ILogger<EventController> logger)
         {
             _logger = logger;
         }
 
         /// <summary>
-        /// Добавляет событие в список и возвращает обновленный список событий.
+        /// Р”РѕР±Р°РІР»СЏРµС‚ СЃРѕР±С‹С‚РёРµ РІ СЃРїРёСЃРѕРє Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РѕР±РЅРѕРІР»РµРЅРЅС‹Р№ СЃРїРёСЃРѕРє СЃРѕР±С‹С‚РёР№.
         /// </summary>
-        /// <param name="events">Список события.</param>
-        /// <returns>Результат операции.</returns>
+        /// <param name="events">РЎРїРёСЃРѕРє СЃРѕР±С‹С‚РёСЏ.</param>
+        /// <returns>Р РµР·СѓР»СЊС‚Р°С‚ РѕРїРµСЂР°С†РёРё.</returns>
         [HttpPost]
         public IActionResult PostEvent([FromBody] Event events)
         {
             if (events == null || string.IsNullOrEmpty(events.Name))
             {
-                return BadRequest("Ожидаются корректные данные.");
+                return BadRequest("РћР¶РёРґР°СЋС‚СЃСЏ РєРѕСЂСЂРµРєС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ.");
             }
 
             _events.Add(events);
@@ -48,17 +48,17 @@ namespace OptionTwoJson.Controllers
         }
 
         /// <summary>
-        /// Получает список событий в временном интервале и сумму value каждого события.
+        /// РџРѕР»СѓС‡Р°РµС‚ СЃРїРёСЃРѕРє СЃРѕР±С‹С‚РёР№ РІ РІСЂРµРјРµРЅРЅРѕРј РёРЅС‚РµСЂРІР°Р»Рµ Рё СЃСѓРјРјСѓ value РєР°Р¶РґРѕРіРѕ СЃРѕР±С‹С‚РёСЏ.
         /// </summary>
-        /// <param name="startTime">Начальное время.</param>
-        /// <param name="endTime">Конечное время</param>
-        /// <returns>Список объектов с двумя датами интервалом в минуту и сумму value.</returns>
+        /// <param name="startTime">РќР°С‡Р°Р»СЊРЅРѕРµ РІСЂРµРјСЏ.</param>
+        /// <param name="endTime">РљРѕРЅРµС‡РЅРѕРµ РІСЂРµРјСЏ</param>
+        /// <returns>РЎРїРёСЃРѕРє РѕР±СЉРµРєС‚РѕРІ СЃ РґРІСѓРјСЏ РґР°С‚Р°РјРё РёРЅС‚РµСЂРІР°Р»РѕРј РІ РјРёРЅСѓС‚Сѓ Рё СЃСѓРјРјСѓ value.</returns>
         [HttpGet]
         public IActionResult GetEvent(DateTime startTime, DateTime endTime)
         {
             if (startTime > DateTime.Now || endTime > DateTime.Now || startTime > endTime)
             {
-                return BadRequest("Ожидаются корректные данные даты.");
+                return BadRequest("РћР¶РёРґР°СЋС‚СЃСЏ РєРѕСЂСЂРµРєС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ РґР°С‚С‹.");
             }
 
             var eventsDictionary = new Dictionary<Tuple<DateTime, DateTime>, int>();
@@ -76,7 +76,7 @@ namespace OptionTwoJson.Controllers
                 SumOfValues = kv.Value
             }).ToList();
 
-            return Ok(eventsList); // Тут на самом деле интресно выходит , просто вернуть словарь не выйдет из-за Tuple. Решил просто преобразовать в лист для сериализации в json для запроса в POSTMAN.
+            return Ok(eventsList); // РўСѓС‚ РЅР° СЃР°РјРѕРј РґРµР»Рµ РёРЅС‚СЂРµСЃРЅРѕ РІС‹С…РѕРґРёС‚ , РїСЂРѕСЃС‚Рѕ РІРµСЂРЅСѓС‚СЊ СЃР»РѕРІР°СЂСЊ РЅРµ РІС‹Р№РґРµС‚ РёР·-Р·Р° Tuple. Р РµС€РёР» РїСЂРѕСЃС‚Рѕ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ РІ Р»РёСЃС‚ РґР»СЏ СЃРµСЂРёР°Р»РёР·Р°С†РёРё РІ json РґР»СЏ Р·Р°РїСЂРѕСЃР° РІ POSTMAN.
         }
     }
 }
